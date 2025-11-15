@@ -6,12 +6,14 @@ User = get_user_model()
 
 class UserSerializer(serializers.ModelSerializer):
     """Serializer for User model."""
+    coach_username = serializers.CharField(source='coach.username', read_only=True)
     
     class Meta:
         model = User
         fields = [
             'id', 'username', 'email', 'first_name', 'last_name',
             'phone', 'bio', 'date_of_birth', 'height_cm',
+            'user_type', 'coach', 'coach_username',
             'created_at', 'updated_at'
         ]
         read_only_fields = ['id', 'created_at', 'updated_at']
@@ -26,7 +28,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         model = User
         fields = [
             'username', 'email', 'password', 'password_confirm',
-            'first_name', 'last_name'
+            'first_name', 'last_name', 'user_type'
         ]
 
     def validate(self, attrs):
