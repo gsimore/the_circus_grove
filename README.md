@@ -51,7 +51,7 @@ cp .env.example .env
 
 3. **Start the application with Docker Compose**
 ```bash
-docker-compose up --build
+docker compose up --build
 ```
 
 The services will be available at:
@@ -64,12 +64,12 @@ The services will be available at:
 
 1. **Run migrations**
 ```bash
-docker-compose exec backend python manage.py migrate
+docker compose exec backend python manage.py migrate
 ```
 
 2. **Create a superuser**
 ```bash
-docker-compose exec backend python manage.py createsuperuser
+docker compose exec backend python manage.py createsuperuser
 ```
 
 ## 📁 Project Structure

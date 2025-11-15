@@ -179,11 +179,11 @@ refactor(nutrition): extract meal form into component
 make test
 
 # Run specific app tests
-docker-compose exec backend python manage.py test users
+docker compose exec backend python manage.py test users
 
 # Run with coverage
-docker-compose exec backend coverage run --source='.' manage.py test
-docker-compose exec backend coverage report
+docker compose exec backend coverage run --source='.' manage.py test
+docker compose exec backend coverage report
 ```
 
 ### Frontend Tests

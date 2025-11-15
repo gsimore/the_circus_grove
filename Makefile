@@ -20,34 +20,34 @@ setup:
 	@./setup.sh
 
 up:
-	docker-compose up -d
+	docker compose up -d
 
 down:
-	docker-compose down
+	docker compose down
 
 build:
-	docker-compose build
+	docker compose build
 
 restart:
-	docker-compose restart
+	docker compose restart
 
 logs:
-	docker-compose logs -f
+	docker compose logs -f
 
 migrate:
-	docker-compose exec backend python manage.py migrate
+	docker compose exec backend python manage.py migrate
 
 makemigrations:
-	docker-compose exec backend python manage.py makemigrations
+	docker compose exec backend python manage.py makemigrations
 
 createsuperuser:
-	docker-compose exec backend python manage.py createsuperuser
+	docker compose exec backend python manage.py createsuperuser
 
 shell:
-	docker-compose exec backend python manage.py shell
+	docker compose exec backend python manage.py shell
 
 test:
-	docker-compose exec backend python manage.py test
+	docker compose exec backend python manage.py test
 
 clean:
-	docker-compose down -v
+	docker compose down -v

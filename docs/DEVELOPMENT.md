@@ -39,21 +39,21 @@ make createsuperuser
 ```bash
 make up
 # or
-docker-compose up -d
+docker compose up -d
 ```
 
 **View logs:**
 ```bash
 make logs
 # or
-docker-compose logs -f
+docker compose logs -f
 ```
 
 **Stop services:**
 ```bash
 make down
 # or
-docker-compose down
+docker compose down
 ```
 
 ### Backend Development
@@ -72,28 +72,28 @@ python manage.py runserver
 ```bash
 make makemigrations
 # or
-docker-compose exec backend python manage.py makemigrations
+docker compose exec backend python manage.py makemigrations
 ```
 
 **Run migrations:**
 ```bash
 make migrate
 # or
-docker-compose exec backend python manage.py migrate
+docker compose exec backend python manage.py migrate
 ```
 
 **Django shell:**
 ```bash
 make shell
 # or
-docker-compose exec backend python manage.py shell
+docker compose exec backend python manage.py shell
 ```
 
 **Run tests:**
 ```bash
 make test
 # or
-docker-compose exec backend python manage.py test
+docker compose exec backend python manage.py test
 ```
 
 ### Frontend Development
@@ -274,12 +274,12 @@ make setup
 
 **Create database backup:**
 ```bash
-docker-compose exec db pg_dump -U circus_user circus_grove > backup.sql
+docker compose exec db pg_dump -U circus_user circus_grove > backup.sql
 ```
 
 **Restore database:**
 ```bash
-cat backup.sql | docker-compose exec -T db psql -U circus_user circus_grove
+cat backup.sql | docker compose exec -T db psql -U circus_user circus_grove
 ```
 
 ## Testing
@@ -338,7 +338,7 @@ VITE_API_URL=http://localhost:8000
 
 **Migrations conflict:**
 ```bash
-docker-compose exec backend python manage.py migrate --fake-initial
+docker compose exec backend python manage.py migrate --fake-initial
 ```
 
 **Clear all migrations:**

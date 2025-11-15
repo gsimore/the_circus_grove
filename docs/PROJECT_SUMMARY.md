@@ -164,9 +164,9 @@ make setup
 
 # Or manually
 cp .env.example .env
-docker-compose up -d
-docker-compose exec backend python manage.py migrate
-docker-compose exec backend python manage.py createsuperuser
+docker compose up -d
+docker compose exec backend python manage.py migrate
+docker compose exec backend python manage.py createsuperuser
 ```
 
 ## Services URLs

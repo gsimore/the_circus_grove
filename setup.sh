@@ -13,7 +13,7 @@ fi
 echo "✅ Environment file ready"
 echo ""
 echo "🐳 Starting Docker containers..."
-docker-compose up -d
+docker compose up -d
 
 echo ""
 echo "⏳ Waiting for database to be ready..."
@@ -21,11 +21,11 @@ sleep 10
 
 echo ""
 echo "🔄 Running database migrations..."
-docker-compose exec -T backend python manage.py migrate
+docker compose exec -T backend python manage.py migrate
 
 echo ""
 echo "📦 Collecting static files..."
-docker-compose exec -T backend python manage.py collectstatic --noinput
+docker compose exec -T backend python manage.py collectstatic --noinput
 
 echo ""
 echo "✅ Setup complete!"
@@ -37,4 +37,4 @@ echo "   API Docs:        http://localhost:8000/api/docs/"
 echo "   Admin Panel:     http://localhost:8000/admin/"
 echo ""
 echo "📝 To create a superuser, run:"
-echo "   docker-compose exec backend python manage.py createsuperuser"
+echo "   docker compose exec backend python manage.py createsuperuser"
