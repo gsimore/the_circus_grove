@@ -18,3 +18,4 @@ python-decouple==3.8
 
 # Utilities
 pytz==2023.3
+Faker==22.0.0

@@ -72,6 +72,23 @@ docker compose exec backend python manage.py migrate
 docker compose exec backend python manage.py createsuperuser
 ```
 
+3. **(Optional) Generate fake data for development**
+```bash
+make seed
+# Or manually:
+docker compose exec backend python manage.py generate_fake_data
+```
+
+This will create:
+- 3 coach users and 7 normal users
+- 8 training sessions with exercises
+- 8 meals with food items
+- 8 check-ins
+- 3 training plans with exercises
+- 3 nutrition plans with meal timings
+
+All users have the password `password123` for testing.
+
 ## 📁 Project Structure
 
 ```
