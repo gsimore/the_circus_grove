@@ -90,10 +90,10 @@ class Command(BaseCommand):
                 password='password123',
                 first_name=fake.first_name(),
                 last_name=fake.last_name(),
-                phone=fake.phone_number(),
+                phone=fake.phone_number()[:20],  # Limit to 20 characters
                 bio=fake.text(max_nb_chars=200),
                 date_of_birth=fake.date_of_birth(minimum_age=25, maximum_age=50),
-                height_cm=Decimal(str(random.uniform(160, 195))),
+                height_cm=Decimal(str(round(random.uniform(160, 195), 2))),
                 user_type='coach'
             )
             coaches.append(coach)
@@ -113,10 +113,10 @@ class Command(BaseCommand):
                 password='password123',
                 first_name=fake.first_name(),
                 last_name=fake.last_name(),
-                phone=fake.phone_number(),
+                phone=fake.phone_number()[:20],  # Limit to 20 characters
                 bio=fake.text(max_nb_chars=200),
                 date_of_birth=fake.date_of_birth(minimum_age=18, maximum_age=60),
-                height_cm=Decimal(str(random.uniform(150, 200))),
+                height_cm=Decimal(str(round(random.uniform(150, 200), 2))),
                 user_type='normal',
                 coach=coach
             )
@@ -155,7 +155,7 @@ class Command(BaseCommand):
                     name=random.choice(exercise_names),
                     sets=random.randint(2, 5),
                     reps=random.randint(6, 15),
-                    weight_kg=Decimal(str(random.uniform(10, 150))),
+                    weight_kg=Decimal(str(round(random.uniform(10, 150), 2))),
                     rest_seconds=random.choice([30, 60, 90, 120]),
                     notes=fake.sentence() if random.random() > 0.7 else None
                 )
@@ -186,13 +186,24 @@ class Command(BaseCommand):
             
             # Add 5-10 exercises to the plan
             for order in range(random.randint(5, 10)):
+                # Use day_of_week for some, scheduled_date for others
+                # Avoid day_of_week=0 due to model validation bug (0 is falsy)
+                use_day_of_week = random.choice([True, False])
+                if use_day_of_week:
+                    day_of_week = random.randint(1, 6)
+                    scheduled_date = None
+                else:
+                    day_of_week = None
+                    scheduled_date = fake.date_between(start_date=start_date, end_date=end_date)
+                
                 TrainingPlanExercise.objects.create(
                     plan=plan,
                     exercise_name=random.choice(exercise_names),
-                    day_of_week=random.randint(0, 6),
+                    day_of_week=day_of_week,
+                    scheduled_date=scheduled_date,
                     sets=random.randint(2, 5),
                     reps=random.randint(6, 15),
-                    weight_kg=Decimal(str(random.uniform(10, 150))),
+                    weight_kg=Decimal(str(round(random.uniform(10, 150), 2))),
                     rest_seconds=random.choice([30, 60, 90, 120]),
                     order=order,
                     notes=fake.sentence() if random.random() > 0.7 else None
@@ -219,9 +230,9 @@ class Command(BaseCommand):
                 date=date,
                 time=fake.time_object(),
                 calories=random.randint(200, 800),
-                protein_g=Decimal(str(random.uniform(10, 60))),
-                carbs_g=Decimal(str(random.uniform(20, 100))),
-                fat_g=Decimal(str(random.uniform(5, 40))),
+                protein_g=Decimal(str(round(random.uniform(10, 60), 2))),
+                carbs_g=Decimal(str(round(random.uniform(20, 100), 2))),
+                fat_g=Decimal(str(round(random.uniform(5, 40), 2))),
                 notes=fake.text(max_nb_chars=150) if random.random() > 0.5 else None
             )
             
@@ -232,9 +243,9 @@ class Command(BaseCommand):
                     name=random.choice(food_names),
                     quantity=f"{random.randint(50, 300)}g",
                     calories=random.randint(50, 300),
-                    protein_g=Decimal(str(random.uniform(2, 30))),
-                    carbs_g=Decimal(str(random.uniform(5, 50))),
-                    fat_g=Decimal(str(random.uniform(1, 20)))
+                    protein_g=Decimal(str(round(random.uniform(2, 30), 2))),
+                    carbs_g=Decimal(str(round(random.uniform(5, 50), 2))),
+                    fat_g=Decimal(str(round(random.uniform(1, 20), 2)))
                 )
 
     def generate_nutrition_plans(self, coaches, users, count):
@@ -253,9 +264,9 @@ class Command(BaseCommand):
                 name=f"{fake.word().title()} Nutrition Plan",
                 description=fake.text(max_nb_chars=250),
                 target_calories=random.randint(1500, 3500),
-                target_protein_g=Decimal(str(random.uniform(100, 250))),
-                target_carbs_g=Decimal(str(random.uniform(150, 400))),
-                target_fat_g=Decimal(str(random.uniform(40, 120))),
+                target_protein_g=Decimal(str(round(random.uniform(100, 250), 2))),
+                target_carbs_g=Decimal(str(round(random.uniform(150, 400), 2))),
+                target_fat_g=Decimal(str(round(random.uniform(40, 120), 2))),
                 start_date=start_date,
                 end_date=end_date,
                 is_active=random.choice([True, False])
@@ -271,9 +282,9 @@ class Command(BaseCommand):
                     meal_type=meal_type,
                     scheduled_time=time(hour=hour, minute=minute),
                     target_calories=random.randint(200, 800),
-                    target_protein_g=Decimal(str(random.uniform(10, 60))),
-                    target_carbs_g=Decimal(str(random.uniform(20, 100))),
-                    target_fat_g=Decimal(str(random.uniform(5, 40))),
+                    target_protein_g=Decimal(str(round(random.uniform(10, 60), 2))),
+                    target_carbs_g=Decimal(str(round(random.uniform(20, 100), 2))),
+                    target_fat_g=Decimal(str(round(random.uniform(5, 40), 2))),
                     is_pre_workout=(meal_type == 'pre_workout'),
                     is_post_workout=(meal_type == 'post_workout'),
                     notes=fake.text(max_nb_chars=150) if random.random() > 0.5 else None,
@@ -295,12 +306,12 @@ class Command(BaseCommand):
             CheckIn.objects.create(
                 user=user,
                 date=date,
-                weight_kg=Decimal(str(random.uniform(50, 120))),
-                body_fat_percentage=Decimal(str(random.uniform(8, 35))),
-                muscle_mass_kg=Decimal(str(random.uniform(30, 80))),
+                weight_kg=Decimal(str(round(random.uniform(50, 120), 2))),
+                body_fat_percentage=Decimal(str(round(random.uniform(8, 35), 1))),
+                muscle_mass_kg=Decimal(str(round(random.uniform(30, 80), 2))),
                 mood=random.choice(moods),
                 energy_level=random.randint(1, 10),
-                sleep_hours=Decimal(str(random.uniform(4, 10))),
+                sleep_hours=Decimal(str(round(random.uniform(4, 10), 1))),
                 water_intake_ml=random.randint(500, 4000),
                 notes=fake.text(max_nb_chars=150) if random.random() > 0.5 else None
             )
