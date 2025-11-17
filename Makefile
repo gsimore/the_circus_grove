@@ -1,4 +1,4 @@
-.PHONY: help setup up down build restart logs migrate makemigrations createsuperuser shell test clean
+.PHONY: help setup up down build restart logs migrate makemigrations createsuperuser shell test clean seed
 
 help:
 	@echo "The Circus Grove - Available Commands:"
@@ -14,6 +14,7 @@ help:
 	@echo "  make createsuperuser - Create Django superuser"
 	@echo "  make shell          - Open Django shell"
 	@echo "  make test           - Run tests"
+	@echo "  make seed           - Generate fake data for local development"
 	@echo "  make clean          - Stop containers and remove volumes"
 
 setup:
@@ -48,6 +49,9 @@ shell:
 
 test:
 	docker compose exec backend python manage.py test
+
+seed:
+	docker compose exec backend python manage.py generate_fake_data
 
 clean:
 	docker compose down -v
