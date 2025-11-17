@@ -28,4 +28,33 @@ export const trainingApi = {
   addExercise(sessionId, data) {
     return apiClient.post(`/api/training/sessions/${sessionId}/exercises/`, data)
   },
+  
+  // Training Plans
+  getPlans(params) {
+    return apiClient.get('/api/training/plans/', { params })
+  },
+  
+  getPlan(id) {
+    return apiClient.get(`/api/training/plans/${id}/`)
+  },
+  
+  createPlan(data) {
+    return apiClient.post('/api/training/plans/', data)
+  },
+  
+  updatePlan(id, data) {
+    return apiClient.patch(`/api/training/plans/${id}/`, data)
+  },
+  
+  deletePlan(id) {
+    return apiClient.delete(`/api/training/plans/${id}/`)
+  },
+  
+  getPlanExercises(planId) {
+    return apiClient.get(`/api/training/plans/${planId}/exercises/`)
+  },
+  
+  addPlanExercise(planId, data) {
+    return apiClient.post(`/api/training/plans/${planId}/exercises/`, data)
+  },
 }

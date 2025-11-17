@@ -74,14 +74,92 @@ export const useTrainingStore = defineStore('training', () => {
     }
   }
 
+  // Training Plans
+  const plans = ref([])
+  const currentPlan = ref(null)
+
+  async function fetchPlans(params) {
+    loading.value = true
+    try {
+      const response = await trainingApi.getPlans(params)
+      plans.value = response.data.results || response.data
+      return response.data
+    } catch (error) {
+      throw error
+    } finally {
+      loading.value = false
+    }
+  }
+
+  async function fetchPlan(id) {
+    loading.value = true
+    try {
+      const response = await trainingApi.getPlan(id)
+      currentPlan.value = response.data
+      return response.data
+    } catch (error) {
+      throw error
+    } finally {
+      loading.value = false
+    }
+  }
+
+  async function createPlan(data) {
+    loading.value = true
+    try {
+      const response = await trainingApi.createPlan(data)
+      plans.value.unshift(response.data)
+      return response.data
+    } catch (error) {
+      throw error
+    } finally {
+      loading.value = false
+    }
+  }
+
+  async function updatePlan(id, data) {
+    loading.value = true
+    try {
+      const response = await trainingApi.updatePlan(id, data)
+      const index = plans.value.findIndex(p => p.id === id)
+      if (index !== -1) {
+        plans.value[index] = response.data
+      }
+      return response.data
+    } catch (error) {
+      throw error
+    } finally {
+      loading.value = false
+    }
+  }
+
+  async function deletePlan(id) {
+    loading.value = true
+    try {
+      await trainingApi.deletePlan(id)
+      plans.value = plans.value.filter(p => p.id !== id)
+    } catch (error) {
+      throw error
+    } finally {
+      loading.value = false
+    }
+  }
+
   return {
     sessions,
     currentSession,
+    plans,
+    currentPlan,
     loading,
     fetchSessions,
     fetchSession,
     createSession,
     updateSession,
     deleteSession,
+    fetchPlans,
+    fetchPlan,
+    createPlan,
+    updatePlan,
+    deletePlan,
   }
 })

@@ -33,43 +33,116 @@
       <div class="px-4 py-6 sm:px-0">
         <h1 class="text-3xl font-bold text-gray-900 mb-8">Dashboard</h1>
         
-        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          <router-link to="/training" class="bg-white overflow-hidden shadow rounded-lg hover:shadow-lg transition-shadow">
-            <div class="p-5">
-              <div class="flex items-center">
-                <div class="flex-shrink-0">
-                  <svg class="h-6 w-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                  </svg>
+        <!-- Training Plans Section -->
+        <div class="mb-8">
+          <div class="flex justify-between items-center mb-4">
+            <h2 class="text-2xl font-semibold text-gray-900">Training Plans</h2>
+            <router-link to="/training" class="text-sm text-blue-600 hover:text-blue-800">
+              View All →
+            </router-link>
+          </div>
+          
+          <div v-if="trainingStore.loading" class="text-center py-8">
+            <p class="text-gray-500">Loading training plans...</p>
+          </div>
+          
+          <div v-else-if="activeTrainingPlans.length === 0" class="bg-white shadow rounded-lg p-6">
+            <p class="text-gray-500 text-center">No active training plans. Your coach will assign you a plan.</p>
+          </div>
+          
+          <div v-else class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <router-link
+              v-for="plan in activeTrainingPlans"
+              :key="plan.id"
+              :to="`/training/plans/${plan.id}`"
+              class="bg-white overflow-hidden shadow rounded-lg hover:shadow-lg transition-shadow"
+            >
+              <div class="p-5">
+                <div class="flex items-center justify-between mb-3">
+                  <h3 class="text-lg font-semibold text-gray-900">{{ plan.name }}</h3>
+                  <span v-if="plan.is_active" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                    Active
+                  </span>
                 </div>
-                <div class="ml-5 w-0 flex-1">
-                  <dl>
-                    <dt class="text-sm font-medium text-gray-500 truncate">Training Sessions</dt>
-                    <dd class="text-lg font-medium text-gray-900">View & Track</dd>
-                  </dl>
+                <p v-if="plan.description" class="text-sm text-gray-500 mb-3 line-clamp-2">{{ plan.description }}</p>
+                <div class="flex items-center text-sm text-gray-500">
+                  <svg class="h-4 w-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                  <span>{{ formatDate(plan.start_date) }}</span>
+                  <span v-if="plan.end_date" class="ml-2">- {{ formatDate(plan.end_date) }}</span>
+                </div>
+                <div v-if="plan.exercises && plan.exercises.length > 0" class="mt-3 text-sm text-gray-600">
+                  <span class="font-medium">{{ plan.exercises.length }}</span> exercise{{ plan.exercises.length !== 1 ? 's' : '' }}
                 </div>
               </div>
-            </div>
-          </router-link>
+            </router-link>
+          </div>
+        </div>
 
-          <router-link to="/nutrition" class="bg-white overflow-hidden shadow rounded-lg hover:shadow-lg transition-shadow">
-            <div class="p-5">
-              <div class="flex items-center">
-                <div class="flex-shrink-0">
-                  <svg class="h-6 w-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-                  </svg>
+        <!-- Nutrition Plans Section -->
+        <div class="mb-8">
+          <div class="flex justify-between items-center mb-4">
+            <h2 class="text-2xl font-semibold text-gray-900">Nutrition Plans</h2>
+            <router-link to="/nutrition" class="text-sm text-blue-600 hover:text-blue-800">
+              View All →
+            </router-link>
+          </div>
+          
+          <div v-if="nutritionStore.loading" class="text-center py-8">
+            <p class="text-gray-500">Loading nutrition plans...</p>
+          </div>
+          
+          <div v-else-if="activeNutritionPlans.length === 0" class="bg-white shadow rounded-lg p-6">
+            <p class="text-gray-500 text-center">No active nutrition plans. Your coach will assign you a plan.</p>
+          </div>
+          
+          <div v-else class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <router-link
+              v-for="plan in activeNutritionPlans"
+              :key="plan.id"
+              :to="`/nutrition/plans/${plan.id}`"
+              class="bg-white overflow-hidden shadow rounded-lg hover:shadow-lg transition-shadow"
+            >
+              <div class="p-5">
+                <div class="flex items-center justify-between mb-3">
+                  <h3 class="text-lg font-semibold text-gray-900">{{ plan.name }}</h3>
+                  <span v-if="plan.is_active" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                    Active
+                  </span>
                 </div>
-                <div class="ml-5 w-0 flex-1">
-                  <dl>
-                    <dt class="text-sm font-medium text-gray-500 truncate">Nutrition</dt>
-                    <dd class="text-lg font-medium text-gray-900">Log Meals</dd>
-                  </dl>
+                <p v-if="plan.description" class="text-sm text-gray-500 mb-3 line-clamp-2">{{ plan.description }}</p>
+                <div class="flex items-center text-sm text-gray-500 mb-3">
+                  <svg class="h-4 w-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                  <span>{{ formatDate(plan.start_date) }}</span>
+                  <span v-if="plan.end_date" class="ml-2">- {{ formatDate(plan.end_date) }}</span>
+                </div>
+                <div class="grid grid-cols-3 gap-2 text-xs">
+                  <div>
+                    <div class="text-gray-500">Calories</div>
+                    <div class="font-semibold text-gray-900">{{ plan.target_calories }}</div>
+                  </div>
+                  <div>
+                    <div class="text-gray-500">Protein</div>
+                    <div class="font-semibold text-gray-900">{{ plan.target_protein_g }}g</div>
+                  </div>
+                  <div>
+                    <div class="text-gray-500">Carbs</div>
+                    <div class="font-semibold text-gray-900">{{ plan.target_carbs_g }}g</div>
+                  </div>
+                </div>
+                <div v-if="plan.meals && plan.meals.length > 0" class="mt-3 text-sm text-gray-600">
+                  <span class="font-medium">{{ plan.meals.length }}</span> meal{{ plan.meals.length !== 1 ? 's' : '' }} scheduled
                 </div>
               </div>
-            </div>
-          </router-link>
+            </router-link>
+          </div>
+        </div>
 
+        <!-- Quick Links -->
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-3">
           <router-link to="/checkins" class="bg-white overflow-hidden shadow rounded-lg hover:shadow-lg transition-shadow">
             <div class="p-5">
               <div class="flex items-center">
@@ -94,11 +167,39 @@
 </template>
 
 <script setup>
+import { computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { useAuthStore } from '../stores'
+import { useAuthStore, useTrainingStore, useNutritionStore } from '../stores'
 
 const router = useRouter()
 const authStore = useAuthStore()
+const trainingStore = useTrainingStore()
+const nutritionStore = useNutritionStore()
+
+const activeTrainingPlans = computed(() => {
+  return trainingStore.plans.filter(plan => plan.is_active)
+})
+
+const activeNutritionPlans = computed(() => {
+  return nutritionStore.plans.filter(plan => plan.is_active)
+})
+
+const formatDate = (dateString) => {
+  if (!dateString) return ''
+  const date = new Date(dateString)
+  return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
+}
+
+onMounted(async () => {
+  try {
+    await Promise.all([
+      trainingStore.fetchPlans(),
+      nutritionStore.fetchPlans()
+    ])
+  } catch (error) {
+    console.error('Error fetching plans:', error)
+  }
+})
 
 const handleLogout = () => {
   authStore.logout()

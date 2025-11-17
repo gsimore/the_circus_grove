@@ -28,4 +28,33 @@ export const nutritionApi = {
   addFood(mealId, data) {
     return apiClient.post(`/api/nutrition/meals/${mealId}/foods/`, data)
   },
+  
+  // Nutrition Plans
+  getPlans(params) {
+    return apiClient.get('/api/nutrition/plans/', { params })
+  },
+  
+  getPlan(id) {
+    return apiClient.get(`/api/nutrition/plans/${id}/`)
+  },
+  
+  createPlan(data) {
+    return apiClient.post('/api/nutrition/plans/', data)
+  },
+  
+  updatePlan(id, data) {
+    return apiClient.patch(`/api/nutrition/plans/${id}/`, data)
+  },
+  
+  deletePlan(id) {
+    return apiClient.delete(`/api/nutrition/plans/${id}/`)
+  },
+  
+  getPlanMeals(planId) {
+    return apiClient.get(`/api/nutrition/plans/${planId}/meals/`)
+  },
+  
+  addPlanMeal(planId, data) {
+    return apiClient.post(`/api/nutrition/plans/${planId}/meals/`, data)
+  },
 }
