@@ -9,7 +9,7 @@ The Circus Grove is a comprehensive full-stack application for fitness tracking,
 ### Monorepo Structure
 ```
 the_circus_grove/
-├── backend/     # Django 5 + DRF API
+├── backend/     # Django 4.2 + DRF API
 ├── frontend/    # Vue 3 + Vite SPA
 ├── docs/        # API and development documentation
 └── docker-compose.yml
@@ -17,8 +17,8 @@ the_circus_grove/
 
 ## Technology Stack
 
-### Backend (Django 5 + DRF)
-- **Framework**: Django 5.0
+### Backend (Django 4.2 + DRF)
+- **Framework**: Django 4.2 LTS
 - **API**: Django REST Framework 3.14
 - **Authentication**: JWT (djangorestframework-simplejwt 5.3.1)
 - **Database**: PostgreSQL 15

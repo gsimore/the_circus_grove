@@ -1,5 +1,6 @@
 # Django Core
-Django==5.0.0
+# Django 5.x requires Python 3.10+, so we stay on the latest 4.2 LTS to support Python 3.8/3.9.
+Django==4.2.13
 djangorestframework==3.14.0
 djangorestframework-simplejwt==5.3.1
 

@@ -1,6 +1,6 @@
 # The Circus Grove
 
-A full-stack monorepo application for tracking training, nutrition, and personal check-ins. Built with Django 5, Django REST Framework, Vue 3, and modern web technologies.
+A full-stack monorepo application for tracking training, nutrition, and personal check-ins. Built with Django 4.2 LTS, Django REST Framework, Vue 3, and modern web technologies.
 
 ## 🎪 Features
 
@@ -14,7 +14,7 @@ A full-stack monorepo application for tracking training, nutrition, and personal
 ## 🛠️ Tech Stack
 
 ### Backend
-- Django 5.0
+- Django 4.2 LTS
 - Django REST Framework
 - JWT Authentication (Simple JWT)
 - PostgreSQL
