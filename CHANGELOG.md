@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Initial monorepo setup for The Circus Grove application
-- Django 5.0 backend with Django REST Framework
+- Django 4.2 LTS backend with Django REST Framework
 - Vue 3 frontend with Vite build tool
 - JWT authentication system with access and refresh tokens
 - PostgreSQL database integration
